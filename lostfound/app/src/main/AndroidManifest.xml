@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.lostfound">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Lost And Found"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LostFound">
+
+        <!-- Entry Point -->
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Add Item Screen -->
+        <activity android:name=".AddItemActivity" />
+
+        <!-- Item List Screen -->
+        <activity android:name=".ItemListActivity" />
+
+        <!-- Item Detail Screen -->
+        <activity android:name=".ItemDetailActivity" />
+
+    </application>
+
+</manifest>

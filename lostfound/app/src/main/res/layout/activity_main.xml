@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DBAC6A"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- App Icon or Image -->
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lost And Found"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#C72C57"
+            android:layout_marginBottom="40dp" />
+
+        <!-- Post Button -->
+        <Button
+            android:id="@+id/btnPostNew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Post New Item"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:elevation="4dp" />
+
+        <!-- View Button -->
+        <Button
+            android:id="@+id/btnViewList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Listings"
+            android:backgroundTint="#3F51B5"
+            android:textColor="#FFFFFF"
+            android:padding="16dp"
+            android:elevation="4dp" />
+    </LinearLayout>
+</ScrollView>

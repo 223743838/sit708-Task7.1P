@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">lostfound</string>
+    <string-array name="item_types">
+        <item>All</item>
+        <item>Lost</item>
+        <item>Found</item>
+    </string-array>
+
 </resources>

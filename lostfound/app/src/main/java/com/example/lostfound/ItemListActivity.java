@@ -2,12 +2,11 @@ package com.example.lostfound;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
-
+import android.widget.ArrayAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +20,8 @@ import java.util.List;
 public class ItemListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private Spinner spinnerTypeFilter;
     private ItemAdapter adapter;
     private LostFoundDatabase database;
-    private List<Item> allItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,58 +30,64 @@ public class ItemListActivity extends AppCompatActivity {
 
         database = new LostFoundDatabase(this);
         recyclerView = findViewById(R.id.recyclerViewItems);
-        spinnerTypeFilter = findViewById(R.id.spinnerTypeFilter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        allItems = database.getAllItems();
-        Log.d("ItemListActivity", "Items loaded: " + allItems.size());
 
-        adapter = new ItemAdapter(allItems, item -> {
-            Intent intent = new Intent(ItemListActivity.this, ItemDetailActivity.class);
-            intent.putExtra("ITEM_ID", item.getId());
+        loadItems();
+
+        Button btnMap = findViewById(R.id.btnShowAllOnMap);
+        btnMap.setOnClickListener(v -> {
+            Intent intent = new Intent(ItemListActivity.this, MapActivity.class);
             startActivity(intent);
         });
-        recyclerView.setAdapter(adapter);
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, new String[]{"All", "Lost", "Found"});
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTypeFilter.setAdapter(spinnerAdapter);
+        Spinner spinner = findViewById(R.id.spinnerTypeFilter);
 
-        spinnerTypeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(
+                this, R.array.item_types, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapterSpinner);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedType = parent.getItemAtPosition(position).toString();
-                filterItems(selectedType);
+                String filter = parent.getItemAtPosition(position).toString();
+                List<Item> items = database.getAllItems();
+                if (!filter.equals("All")) {
+                    List<Item> filtered = new ArrayList<>();
+                    for (Item item : items) {
+                        if (item.getType().equalsIgnoreCase(filter)) {
+                            filtered.add(item);
+                        }
+                    }
+                    adapter.updateList(filtered);
+                } else {
+                    adapter.updateList(items);
+                }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                filterItems("All");
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+
     }
 
-    private void filterItems(String type) {
-        if (adapter == null || allItems == null) return;
+    private void loadItems() {
+        List<Item> itemList = database.getAllItems();
+        adapter = new ItemAdapter(itemList);
 
-        if (type.equals("All")) {
-            adapter.updateList(allItems);
-        } else {
-            List<Item> filtered = new ArrayList<>();
-            for (Item item : allItems) {
-                if (item.getType().equalsIgnoreCase(type)) {
-                    filtered.add(item);
-                }
-            }
-            adapter.updateList(filtered);
-        }
+        adapter.setOnItemClickListener(item -> {
+            Intent intent = new Intent(ItemListActivity.this, ItemDetailActivity.class);
+            intent.putExtra("item_id", item.getId());  // ✅ Pass only the ID
+            startActivity(intent);
+        });
+
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        allItems = database.getAllItems();
-        filterItems(spinnerTypeFilter.getSelectedItem().toString());
+        loadItems(); // Reload items when coming back
     }
+
 }

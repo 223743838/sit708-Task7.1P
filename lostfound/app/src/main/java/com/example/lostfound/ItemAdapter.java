@@ -26,8 +26,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         void onItemLongClick(Item item);
     }
 
-    public ItemAdapter(List<Item> itemList, OnItemClickListener listener) {
+    public ItemAdapter(List<Item> itemList) {
         this.itemList = itemList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.clickListener = listener;
     }
 

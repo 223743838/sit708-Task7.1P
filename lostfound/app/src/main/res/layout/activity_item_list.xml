@@ -22,11 +22,22 @@
     <!-- Filter Spinner -->
     <Spinner
         android:id="@+id/spinnerTypeFilter"
+        android:entries="@array/item_types"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:background="@android:drawable/btn_dropdown"
         android:padding="10dp" />
+
+    <!-- Show All on Map Button -->
+    <Button
+        android:id="@+id/btnShowAllOnMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show All on Map"
+        android:layout_margin="12dp"
+        android:backgroundTint="#3F51B5"
+        android:textColor="#FFFFFF" />
 
     <!-- RecyclerView List -->
     <androidx.recyclerview.widget.RecyclerView
@@ -37,5 +48,4 @@
         android:padding="8dp"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
-
 </LinearLayout>
